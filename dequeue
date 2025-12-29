@@ -1,0 +1,45 @@
+#include <stdio.h>
+#define SIZE 5
+
+int queue[SIZE];
+int front = 0, rear = -1;
+
+/* Assume queue already has some elements */
+void dequeue() {
+    if (front > rear) {
+        printf("Queue Underflow\n");
+    } else {
+        printf("%d removed from queue\n", queue[front]);
+        front++;
+    }
+}
+
+void display() {
+    if (front > rear) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Queue elements: ");
+        for (int i = front; i <= rear; i++) {
+            printf("%d ", queue[i]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int n;
+
+    /* Pre-fill queue */
+    printf("Enter number of elements in queue: ");
+    scanf("%d", &n);
+
+    for (int i = 0; i < n && i < SIZE; i++) {
+        scanf("%d", &queue[i]);
+        rear++;
+    }
+
+    dequeue();   // delete one element
+    display();
+
+    return 0;
+}
