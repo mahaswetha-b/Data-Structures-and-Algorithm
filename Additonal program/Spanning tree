@@ -1,0 +1,48 @@
+#include <stdio.h>
+#define V 3
+#define INF 100
+
+int main() {
+
+    int graph[V][V] = {
+        {0, 1, 3},
+        {1, 0, 2},
+        {3, 2, 0}
+    };
+
+    int selected[V] = {0};
+    int edges = 0;
+    int totalCost = 0;
+
+    selected[0] = 1;  // start from vertex 0
+
+    printf("Edge   Cost\n");
+
+    while (edges < V - 1) {//2<2
+
+        int min = INF;//100
+        int u = -1, v = -1;
+
+        for (int i = 0; i < V; i++) {//2<3
+            if (selected[i]) {
+                for (int j = 0; j < V; j++) {//3<3
+                    if (!selected[j] && graph[i][j] != 0) {
+                        if (graph[i][j] < min) {//2<3
+                            min = graph[i][j];//2
+                            u = i;//1
+                            v = j;//2
+                        }
+                    }
+                }
+            }
+        }
+
+        printf("%d - %d   %d\n", u, v, graph[u][v]);
+        totalCost += graph[u][v];//3
+        selected[v] = 1;
+        edges++;//1
+    }
+
+    printf("Total cost of MST = %d\n", totalCost);
+    return 0;
+}
