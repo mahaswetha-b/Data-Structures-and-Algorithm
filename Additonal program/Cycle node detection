@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+#define V 5   // number of vertices
+#define E 4   // number of edges
+
+// Find operation
+int find(int parent[], int i) {//3
+    if (parent[i] == -1){
+        return i;
+    }
+    return find(parent, parent[i]);
+}
+
+// Union operation
+void unionSet(int parent[], int x, int y) {//3,4
+    int xroot = find(parent, x);////3
+    int yroot = find(parent, y);//4
+    parent[xroot] = yroot;
+}
+
+// Cycle detection
+int isCycle(int edges[E][2]) {
+    int parent[V];
+    
+    // Initialize parent array
+    for (int i = 0; i < V; i++)
+        parent[i] = -1;
+
+    // Process each edge
+    for (int i = 0; i < E; i++) {//4<4
+        int x = find(parent, edges[i][0]);//3
+        int y = find(parent, edges[i][1]);//4
+
+        if (x == y){
+            return 1; // cycle found
+        }
+
+        unionSet(parent, x, y);
+    }
+    return 0; // no cycle
+}
+
+int main() {
+    int edges[E][2] = {
+        {0, 1},
+        {1, 2},
+        {2, 3},
+        {3, 1}   // this creates a cycle
+    };
+
+    if (isCycle(edges))//0
+        printf("Cycle detected\n");
+    else
+        printf("No cycle\n");
+
+    return 0;
+}
