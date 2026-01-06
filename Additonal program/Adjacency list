@@ -1,0 +1,60 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX 10
+// Structure for a node in the adjacency list
+struct Node {
+    int vertex;
+    struct Node* next;
+};
+// Array of pointers to represent the adjacency list
+struct Node* adjList[MAX];
+// Function to create a new node
+struct Node* createNode(int v) {//1
+    struct Node* newNode = malloc(sizeof(struct Node));//1000
+    newNode->vertex = v;//2
+    newNode->next = NULL;
+    return newNode;
+}
+// Function to add an edge to the undirected graph
+void addEdge(int u, int v) {//1 2
+    // Add v to u's list
+    struct Node* newNode = createNode(v);//1000
+    newNode->next = adjList[u];//0
+    adjList[u] = newNode;//0
+    // Add u to v's list (because the graph is undirected)
+    newNode = createNode(u);//4000
+    newNode->next = adjList[v];
+    adjList[v] = newNode;
+}
+// Function to print the adjacency list
+void printGraph(int vertices) {//3
+    for (int i = 0; i < vertices; i++) {//2<3
+        struct Node* temp = adjList[i];//4000
+        printf("%d: ", i);//2:
+        while (temp != NULL) {//2000!=null
+            printf("%d → ", temp->vertex);
+            temp = temp->next;
+        }
+        printf("NULL\n");
+    }
+}
+int main() {
+    int vertices, edges, u, v;
+    printf("Enter number of vertices: ");
+    scanf("%d", &vertices);//3
+    // Initialize all adjacency lists to NULL
+    for (int i = 0; i < vertices; i++) {//1<3
+        adjList[i] = NULL;
+    }
+    printf("Enter number of edges: ");
+    scanf("%d", &edges);//2
+
+    for (int i = 0; i < edges; i++) {//1<2
+        printf("Enter edge (u v): ");
+        scanf("%d %d", &u, &v);//1 2
+        addEdge(u, v);//1 2
+    }
+    printf("\nAdjacency List:\n");
+    printGraph(vertices);//3
+    return 0;
+}
