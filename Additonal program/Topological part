@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+#define V 4   // number of vertices
+
+void topologicalSort(int graph[V][V]) {
+    int indegree[V] = {0};
+
+    // Step 1: Calculate indegree of each node
+    for (int i = 0; i < V; i++) {//0<4
+        for (int j = 0; j < V; j++) {//1<4
+            if (graph[i][j] == 1){
+                indegree[j]++;
+            }
+        }
+    }
+
+    int queue[V];
+    int front = 0, rear = 0;
+
+    // Step 2: Add nodes with indegree 0 to queue
+    for (int i = 0; i < V; i++) {
+        if (indegree[i] == 0)
+            queue[rear++] = i;
+    }
+
+    // Step 3: Process queue
+    while (front < rear) {
+        int node = queue[front++];
+        printf("%d ", node);
+
+        for (int i = 0; i < V; i++) {
+            if (graph[node][i] == 1) {
+                indegree[i]--;
+                if (indegree[i] == 0)
+                    queue[rear++] = i;
+            }
+        }
+    }
+}
+
+int main() {
+    int graph[V][V] = {
+        {0, 1, 1, 0},
+        {0, 0, 0, 1},
+        {0, 0, 0, 1},
+        {0, 0, 0, 0}
+    };
+
+    printf("Topological Order: ");
+    topologicalSort(graph);
+
+    return 0;
+}
